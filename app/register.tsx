@@ -3,7 +3,6 @@ import {Link, useRouter} from 'expo-router'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useNavigation } from 'expo-router'
 import { TextInput } from 'react-native-gesture-handler'
 const register = () => {
    
@@ -12,7 +11,7 @@ const register = () => {
         navigate.replace(path)
     }
   return (
-    <LinearGradient colors={['#4B0082', '#FF00FF']}
+    <LinearGradient colors={['#2fd1ed', '#bb5dff']}
         style={styles.container}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -22,7 +21,7 @@ const register = () => {
         <View style={styles.logoContainer}>
             
             <MaterialCommunityIcons style={styles.logo} name="account-circle" />
-            <Text style={{color: '#FFF', fontSize:34}}> Sistema SuperMax</Text>
+            <Text style={{color: '#FFF', fontSize:34}}> Registre-se</Text>
           
         </View>
         <TextInput 
@@ -49,7 +48,7 @@ const register = () => {
                     secureTextEntry={true}
                     style={styles.input} 
                 />
-        <TouchableOpacity style={styles.loginButton} onPress={()=>{replacepath('/login')}}><Text style={{color: '#FF00FF',fontSize:18}}>Enviar</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.loginButton} onPress={()=>{replacepath('/login')}}><Text style={{color: '#0cc0df',fontSize:18}}>Enviar</Text></TouchableOpacity>
        
     
     </View>   
