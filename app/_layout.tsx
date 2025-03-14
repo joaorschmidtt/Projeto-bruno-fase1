@@ -43,7 +43,7 @@ export default function RootLayout() {
           <Stack.Screen name="welcome" options={{ headerShown: false }} />
           <Stack.Screen name="login" options={{ headerShown: false }} />
           <Stack.Screen name="register" options={{ headerShown: false }} />
-          <Stack.Screen name="home" options={{ headerShown: false }} />
+          <Stack.Screen name="finalizarCompra "options={{ title: 'Finalizar Compra ', headerStyle: { backgroundColor: 'black' },headerTintColor: 'white', }} />
           <Stack.Screen name="products"options={{title: 'Produtos',  headerStyle: { backgroundColor: 'black' },headerTintColor: 'white',}}/>
           <Stack.Screen name="cart"options={{title: 'Carrinho',  headerStyle: { backgroundColor: 'black' },headerTintColor: 'white',}}/>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

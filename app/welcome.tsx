@@ -24,7 +24,7 @@ const Welcome = () => {
 
   return (
     <LinearGradient
-      colors={['#2fd1ed', '#bb5dff']}
+      colors={['#212121','#2979FF']}
       style={styles.container}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
@@ -32,7 +32,7 @@ const Welcome = () => {
       <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
           <Image
-            source={require('../assets/images/logo2.png')}
+            source={require('../assets/images/logoAzulPreto.png')}
             style={styles.logoImagem}
             resizeMode="contain"
           />
@@ -45,7 +45,7 @@ const Welcome = () => {
         {/* Botão de Login */}
         <TouchableOpacity onPress={() => replacepath('/login')} style={styles.buttonContainer}>
           <LinearGradient
-            colors={['#2fd1ed', '#bb5dff']}
+            colors={['#2979FF','#212121']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   logoImagem: {
-    width: 250,
-    height: 250,
-    marginBottom: 50,
+    width: 350,
+    height: 300,
+    marginBottom: 30,
   },
   textContainer: {
     marginBottom: 50,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   title: {
-    color: '#fff',
+    color: '#bfe5ef',
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 10,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold', // Fonte aplicada aqui!
   },
   subtitle: {
-    color: '#fff',
+    color: '#bfe5ef',
     fontSize: 16,
     textAlign: 'center',
     fontFamily: 'Poppins-Regular', // E aqui também!
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   buttonGradientText: {
-    color: '#fff',
+    color: '#bfe5ef',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   textRegister: {
-    color: 'white',
+    color: '#bfe5ef',
     fontSize: 15,
     marginTop: 10,
     fontWeight: 'bold',

@@ -13,7 +13,7 @@ const register = () => {
 
   return (
     <LinearGradient
-      colors={["#2fd1ed", "#bb5dff"]}
+      colors={["#212121", "#2979FF"]}  // Gradiente atualizado para ficar como a tela de login
       style={styles.container}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
@@ -21,7 +21,7 @@ const register = () => {
       <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
           <MaterialCommunityIcons style={styles.logo} name="account-circle" />
-          <Text style={{ color: "#FFF", fontSize: 34 }}>Registre-se</Text>
+          <Text style={{ color: "#FFF", fontSize: 34, marginBottom: 15 }}>Registre-se</Text>
         </View>
 
         <TextInput
@@ -54,7 +54,7 @@ const register = () => {
           onPress={() => replacepath("/login")}
         >
           <LinearGradient
-            colors={["#2fd1ed", "#bb5dff"]} // Gradiente no botão
+            colors={["#2979FF", "#212121"]}  // Gradiente do botão igual o da tela de login
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -68,7 +68,7 @@ const register = () => {
           onPress={() => replacepath("/welcome")}
         >
           <LinearGradient
-            colors={["#2fd1ed", "#bb5dff"]} // Gradiente no botão
+            colors={["#2979FF", "#212121"]}  // Gradiente no botão de voltar
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -89,16 +89,15 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: "80%",
-    height: "60%", // Aumentei um pouco a altura para melhorar o layout
+    height: "60%",  // A altura foi ajustada para equilibrar o layout
     justifyContent: "center",
     alignItems: "center",
   },
   logoContainer: {
-    color: "#FFF",
-    borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+    marginBottom: 20,
   },
   logo: {
     fontSize: 100,
@@ -126,9 +125,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
+    marginBottom: 5,
   },
   buttonGradientText: {
-    color: "#fff",
+    color: "#FFF",  // Ajustei a cor para ser branca, para dar contraste com o fundo
     fontSize: 18,
     fontWeight: "bold",
   },

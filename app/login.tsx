@@ -15,7 +15,7 @@ const register = () => {
 
   return (
     <LinearGradient
-      colors={["#2fd1ed", "#bb5dff"]}
+      colors={["#212121", "#2979FF"]}
       style={styles.container}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
@@ -23,7 +23,7 @@ const register = () => {
       <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
           <MaterialCommunityIcons style={styles.logo} name="account-circle" />
-          <Text style={{ color: "#FFF", fontSize: 34 }}>Entrar</Text>
+          <Text style={{ color: "#FFF", fontSize: 34 , marginBottom:15}}>Entrar</Text>
         </View>
 
         <TextInput
@@ -45,7 +45,7 @@ const register = () => {
           onPress={() => replacepath("/products")}
         >
           <LinearGradient
-            colors={["#2fd1ed", "#bb5dff"]} // Gradiente no botão
+            colors={["#2979FF", "#212121"]} // Gradiente no botão
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -58,7 +58,7 @@ const register = () => {
           onPress={() => replacepath("/welcome")}
         >
           <LinearGradient
-            colors={["#2fd1ed", "#bb5dff"]} // Gradiente no botão
+            colors={["#2979FF", "#212121"]} // Gradiente no botão
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: "100%",
-    marginTop: 15,
+    marginTop: 10,
   },
   buttonGradient: {
     height: 50,
@@ -116,9 +116,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
+    marginBottom: 5,
   },
   buttonGradientText: {
-    color: "#fff",
+    color: "#bfe5ef",
     fontSize: 18,
     fontWeight: "bold",
   },
