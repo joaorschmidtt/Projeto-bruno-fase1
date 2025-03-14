@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
+import { useCart } from '@/context/cartContext';
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image } from "react-native";
 
 const produtos = [
-  { id: '1', nome: 'Soundcore Life Q30', preco: '799,00', descricao: 'Música de alta resolução: ouça todos os detalhes de suas músicas favoritas graças aos drivers Life Q30s de 40 mm. Os diafragmas de seda altamente flexíveis reproduzem graves e agudos nítidos que se estendem até 40 kHz para melhorar a clareza.', imagem: require('../assets/images/fone.jpg') },
-  { id: '2', nome: 'Beats studio 3', preco: '1800,00', descricao: 'O fone de ouvido Beats Studio3 Wireless oferece uma experiência sonora de alta qualidade com o Pure ANC (Puro cancelamento ativo de ruído). A tecnologia Pure ANC da Beats bloqueia ativamente os ruídos externos e calibra o áudio em tempo real para preservar a nitidez, o alcance e toda a emoção do seu som.', imagem: require('../assets/images/fone2.webp')  },
-  { id: '3', nome: 'Produto 3', preco: '10.00', descricao: 'Descrição do produto 3', imagem: 'url-da-imagem' },
-  { id: '4', nome: 'Produto 4', preco: '15.00', descricao: 'Descrição do produto 4', imagem: 'url-da-imagem' },
-  { id: '5', nome: 'Produto 5', preco: '10.00', descricao: 'Descrição do produto 5', imagem: 'url-da-imagem' },
-  { id: '6', nome: 'Produto 6', preco: '15.00', descricao: 'Descrição do produto 6', imagem: 'url-da-imagem' },
-  { id: '7', nome: 'Produto 7', preco: '10.00', descricao: 'Descrição do produto 7', imagem: 'url-da-imagem' },
-  { id: '8', nome: 'Produto 8', preco: '15.00', descricao: 'Descrição do produto 8', imagem: 'url-da-imagem' },
-  { id: '9', nome: 'Produto 9', preco: '10.00', descricao: 'Descrição do produto 9', imagem: 'url-da-imagem' },
-  { id: '10', nome: 'Produto 10', preco: '15.00', descricao: 'Descrição do produto 10', imagem: 'url-da-imagem' },
-  // Adicione mais produtos aqui
+  {
+    id: "1",
+    nome: "Soundcore Life Q30",
+    preco: "799,00",
+    descricao:
+      "Música de alta resolução: ouça todos os detalhes de suas músicas favoritas graças aos drivers Life Q30s de 40 mm. Os diafragmas de seda altamente flexíveis reproduzem graves e agudos nítidos que se estendem até 40 kHz para melhorar a clareza.",
+    imagem: require("../assets/images/fone.jpg"),
+  },
+  {
+    id: "2",
+    nome: "Beats studio 3",
+    preco: "1800,00",
+    descricao:
+      "O fone de ouvido Beats Studio3 Wireless oferece uma experiência sonora de alta qualidade com o Pure ANC (Puro cancelamento ativo de ruído).",
+    imagem: require("../assets/images/fone2.webp"),
+  },
+  // Produtos de exemplo...
 ];
 
-const Produtos = () => {
-  const [carrinho, setCarrinho] = useState<any[]>([]);
-
-  const adicionarAoCarrinho = (produto: any) => {
-    setCarrinho([...carrinho, produto]);
-  };
+ const Produtos = () => {
+  const { adicionarAoCarrinho, carrinho } = useCart(); // ✅ Usando context aqui
+  const navigation = useNavigation();
 
   const renderProduto = ({ item }: any) => (
     <View style={styles.produtoCard}>
       <Image
-        source={typeof item.imagem === 'string' ? { uri: item.imagem } : item.imagem} // Verifica se a imagem é uma URL ou require
+        source={
+          typeof item.imagem === "string" ? { uri: item.imagem } : item.imagem
+        }
         style={styles.imagemProduto}
       />
       <Text style={styles.nomeProduto}>{item.nome}</Text>
-      <Text style={styles.descricaoProduto}>{item.descricao}</Text> {/* Aqui estamos exibindo a descrição */}
-
+      <Text style={styles.descricaoProduto}>{item.descricao}</Text>
       <Text style={styles.precoProduto}>R$ {item.preco}</Text>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.botaoAdicionar}
         onPress={() => adicionarAoCarrinho(item)}
       >
@@ -40,7 +47,6 @@ const Produtos = () => {
       </TouchableOpacity>
     </View>
   );
-  
 
   return (
     <View style={styles.container}>
@@ -49,10 +55,30 @@ const Produtos = () => {
         renderItem={renderProduto}
         keyExtractor={(item) => item.id}
       />
-      <View style={styles.carrinhoContainer}>
-        <TouchableOpacity onPress={() => console.log(carrinho)}>
-          <Text style={styles.botaoCarrinho}>Ver Carrinho</Text>
-        </TouchableOpacity>
+      <View style={styles.containerButtons}>
+        <View style={styles.containerBtnAction}>
+          <TouchableOpacity onPress={() => router.push("/login")}>
+            <View style={styles.botaoCarrinho}>
+              <Image
+                source={require("../assets/images/goback.png")}
+                style={styles.imgCarrinho}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.containerBtnAction}>
+          <TouchableOpacity onPress={() => router.push("/cart")}>
+            <View style={styles.botaoCarrinho}>
+              <Image
+                source={require("../assets/images/carrinho.png")}
+                style={styles.imgCarrinho}
+              />
+              {carrinho.length > 0 && (
+                <Text style={styles.contador}>{carrinho.length}</Text>
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -61,15 +87,15 @@ const Produtos = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     padding: 20,
   },
   produtoCard: {
-    backgroundColor: '#E8D7FF',
+    backgroundColor: "#E8D7FF",
     borderRadius: 10,
     marginBottom: 20,
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   imagemProduto: {
     width: 100,
@@ -79,43 +105,60 @@ const styles = StyleSheet.create({
   },
   nomeProduto: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   descricaoProduto: {
     fontSize: 14,
-    color: '#777',
-    marginBottom: 10, // Ajuste a margem conforme necessário
-    textAlign: 'center', // Alinha o texto no centro, mas pode ajustar conforme preferir
+    color: "#777",
+    marginBottom: 10,
+    textAlign: "center",
   },
-  
   precoProduto: {
     fontSize: 16,
-    color: '#4B0082',
+    color: "#4B0082",
     marginBottom: 10,
   },
   botaoAdicionar: {
-    backgroundColor: '#bb5dff',
+    backgroundColor: "#bb5dff",
     padding: 10,
     borderRadius: 5,
   },
   textBotao: {
-    color: '#FFF',
+    color: "#FFF",
   },
-  carrinhoContainer: {
-    position: 'absolute',
-    bottom: 20,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    
+  containerButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  containerBtnAction: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   botaoCarrinho: {
-    backgroundColor: '#8E24AA',
+    backgroundColor: "#bb5dff",
     padding: 15,
     borderRadius: 50,
-    color: '#FFF',
-    fontSize: 18,
+    width: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  imgCarrinho: {
+    width: 20,
+    height: 20,
+  },
+  contador: {
+    backgroundColor: "#bb5dff",
+    width: 20,
+    borderRadius: 50,
+    top: -5,
+    borderColor: "#FFF",
+    borderWidth: 1,
+    right: 10,
+    textAlign: "center",
+    color: "#FFF",
+    position: "absolute",
   },
 });
 
