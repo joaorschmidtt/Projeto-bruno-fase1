@@ -45,11 +45,11 @@ const produtos = [
       "Música de alta resolução: ouça todos os detalhes de suas músicas favoritas graças aos drivers Life Q30s de 40 mm. Os diafragmas de seda altamente flexíveis reproduzem graves e agudos nítidos que se estendem até 40 kHz para melhorar a clareza.",
     imagem: require("../assets/images/fone.jpg"),
   },
-  // Produtos de exemplo...
+ 
 ];
 
 const Produtos = () => {
-  const { adicionarAoCarrinho, carrinho } = useCart(); // ✅ Usando context aqui
+  const { adicionarAoCarrinho, carrinho } = useCart();
   const navigation = useNavigation();
 
   const renderProduto = ({ item }: any) => (
@@ -78,9 +78,9 @@ const Produtos = () => {
   data={produtos}
   renderItem={renderProduto}
   keyExtractor={(item) => item.id}
-  numColumns={2} // ou qualquer outro número de colunas
+  numColumns={2} 
   columnWrapperStyle={styles.row}
-  key={`columns-${2}`}  // Altere o número conforme necessário
+  key={`columns-${2}`}  
 />
 
       <View style={styles.containerButtons}>
@@ -115,52 +115,52 @@ const Produtos = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#212121", // Fundo escuro (preto)
+    backgroundColor: "#212121", 
     padding: 20,
   },
   row: {
-    justifyContent: "space-between", // Espaçamento entre os cards
+    justifyContent: "space-between", 
   },
   produtoCard: {
-    backgroundColor: "#1c1c1c", // Fundo mais escuro para o card do produto
+    backgroundColor: "#1c1c1c", 
     borderRadius: 10,
     marginBottom: 20,
     padding: 15,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#00BCD4", // Azul mais escuro nas bordas para destacar
-    width: "48%", // Definir a largura do card (para 2 colunas)
+    borderColor: "#00BCD4", 
+    width: "48%", 
   },
   imagemProduto: {
-    width: 100, // Tamanho menor para a imagem
-    height: 100, // Tamanho menor para a imagem
+    width: 100, 
+    height: 100, 
     borderRadius: 10,
     marginBottom: 10,
   },
   nomeProduto: {
-    fontSize: 16, // Diminuir o tamanho do nome
+    fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "#00BCD4", // Azul mais escuro para o nome do produto
+    color: "#00BCD4", 
   },
   descricaoProduto: {
-    fontSize: 12, // Diminuir o tamanho da descrição
-    color: "#B0B0B0", // Cor cinza mais suave para a descrição
+    fontSize: 12, 
+    color: "#B0B0B0", 
     marginBottom: 10,
     textAlign: "center",
   },
   precoProduto: {
-    fontSize: 14, // Ajustar o tamanho do preço
-    color: "#00BCD4", // Azul mais escuro para o preço
+    fontSize: 14, 
+    color: "#00BCD4", 
     marginBottom: 10,
   },
   botaoAdicionar: {
-    backgroundColor: "#00BCD4", // Azul mais escuro para o botão
+    backgroundColor: "#00BCD4", 
     padding: 10,
     borderRadius: 5,
   },
   textBotao: {
-    color: "#212121", // Texto escuro para contraste no botão
+    color: "#212121", 
   },
   containerButtons: {
     flexDirection: "row",
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   botaoCarrinho: {
-    backgroundColor: "#1565C0", // Azul mais escuro para o botão de carrinho
+    backgroundColor: "#1565C0", 
     padding: 15,
     borderRadius: 50,
     width: 80,
@@ -183,18 +183,18 @@ const styles = StyleSheet.create({
   imgCarrinho: {
     width: 20,
     height: 20,
-    tintColor: "#FFF", // Ícone do carrinho branco
+    tintColor: "#FFF",
   },
   contador: {
-    backgroundColor: "#00BCD4", // Azul mais escuro para o contador de itens no carrinho
+    backgroundColor: "#00BCD4", 
     width: 20,
     borderRadius: 50,
     top: -5,
-    borderColor: "#212121", // Cor escura para borda do contador
+    borderColor: "#212121", 
     borderWidth: 1,
     right: 10,
     textAlign: "center",
-    color: "#212121", // Texto escuro dentro do contador
+    color: "#212121",
     position: "absolute",
   },
 });

@@ -3,19 +3,19 @@ import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading'; // só se precisar de loading enquanto carrega a fonte
+import AppLoading from 'expo-app-loading'; 
 
 const Welcome = () => {
   const navigate = useRouter();
 
-  // Carregando fontes
+  
   const [fontsLoaded] = useFonts({
     'RobotoMono-SemiBold': require('../assets/fonts/static/RobotoMono-SemiBold.ttf'),
     'RobotoMono-Medium': require('../assets/fonts/static/RobotoMono-Medium.ttf'),
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />; // ou um loader, se preferir
+    return <AppLoading />; 
   }
 
   const replacepath = (path: any) => {
@@ -96,13 +96,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
-    fontFamily: 'Poppins-Bold', // Fonte aplicada aqui!
+    fontFamily: 'Poppins-Bold',
   },
   subtitle: {
     color: '#bfe5ef',
     fontSize: 16,
     textAlign: 'center',
-    fontFamily: 'Poppins-Regular', // E aqui também!
+    fontFamily: 'Poppins-Regular', 
   },
   buttonContainer: {
     width: '80%',

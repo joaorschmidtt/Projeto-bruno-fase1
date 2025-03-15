@@ -7,13 +7,13 @@ export default function FinalizarCompra() {
   const { limparCarrinho } = useCart();
 
   const handleFinalizar = () => {
-    limparCarrinho(); // Limpar o carrinho
-    router.push('/products'); // Voltar para a tela de produtos
+    limparCarrinho(); 
+    router.push('/products'); 
   };
 
   return (
     <LinearGradient
-      colors={['#2c2f3f', '#1a1a1a']} // Gradiente de fundo escuro
+      colors={['#2c2f3f', '#1a1a1a']} 
       style={styles.container}
     >
       <View style={styles.card}>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   card: {
-    backgroundColor: '#1c1c1c', // Fundo mais escuro para o card
+    backgroundColor: '#1c1c1c', 
     borderRadius: 12,
     padding: 25,
     alignItems: 'center',
@@ -44,25 +44,25 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
-    elevation: 5, // sombra para o card
-    width: '90%', // ajusta o card para ocupar a maior parte da tela
-    maxWidth: 400, // limite máximo da largura do card
+    elevation: 5, 
+    width: '90%', 
+    maxWidth: 400,
   },
   titulo: {
     fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: '#00BCD4', // Azul mais escuro
+    color: '#00BCD4', 
     textAlign: 'center',
   },
   subtitulo: {
     fontSize: 18,
     marginBottom: 30,
-    color: '#B0B0B0', // Cor cinza mais suave
+    color: '#B0B0B0', 
     textAlign: 'center',
   },
   botao: {
-    backgroundColor: '#00BCD4', // Azul mais escuro para o botão
+    backgroundColor: '#00BCD4', 
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    elevation: 5, // sombra do botão
+    elevation: 5, 
   },
   textoBotao: {
     color: 'white',

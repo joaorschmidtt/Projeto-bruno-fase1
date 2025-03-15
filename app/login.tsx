@@ -1,17 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native-gesture-handler";
 
-const register = () => {
+const Login = () => {
   const navigate = useRouter();
   const replacepath = (path: any) => {
     navigate.replace(path);
   };
 
-  const router = useRouter();
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+ 
+  const isValidEmail = (email: string) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
+  const handleLogin = () => {
+    setError("");
+
+    if (!email || !password) {
+      setError("Todos os campos são obrigatórios.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError("Por favor, insira um e-mail válido.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
+
+    
+    replacepath("/products");
+  };
+
+  
+  const isFormValid = () => {
+    return isValidEmail(email) && password.length >= 6;
+  };
 
   return (
     <LinearGradient
@@ -23,7 +59,9 @@ const register = () => {
       <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
           <MaterialCommunityIcons style={styles.logo} name="account-circle" />
-          <Text style={{ color: "#FFF", fontSize: 34 , marginBottom:15}}>Entrar</Text>
+          <Text style={{ color: "#FFF", fontSize: 34, marginBottom: 15 }}>
+            Entrar
+          </Text>
         </View>
 
         <TextInput
@@ -31,21 +69,32 @@ const register = () => {
           placeholderTextColor="#FFF"
           keyboardType="email-address"
           style={styles.input}
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Senha"
           placeholderTextColor="#FFF"
           secureTextEntry={true}
           style={styles.input}
+          value={password}
+          onChangeText={setPassword}
         />
 
-        {/* Botão com gradiente */}
+        {/* Mensagem de erro */}
+        {error !== "" && <Text style={styles.errorText}>{error}</Text>}
+
+        {/* Botão de entrar */}
         <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => replacepath("/products")}
+          style={[
+            styles.buttonContainer,
+            !isFormValid() && { opacity: 0.5 },
+          ]}
+          onPress={handleLogin}
+          disabled={!isFormValid()}
         >
           <LinearGradient
-            colors={["#2979FF", "#212121"]} // Gradiente no botão
+            colors={["#2979FF", "#212121"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -53,12 +102,14 @@ const register = () => {
             <Text style={styles.buttonGradientText}>Entrar</Text>
           </LinearGradient>
         </TouchableOpacity>
+
+        {/* Botão de voltar */}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => replacepath("/welcome")}
         >
           <LinearGradient
-            colors={["#2979FF", "#212121"]} // Gradiente no botão
+            colors={["#2979FF", "#212121"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
@@ -123,6 +174,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  errorText: {
+    color: "#FF5252",
+    fontSize: 14,
+    marginTop: 10,
+    textAlign: "center",
+  },
 });
 
-export default register;
+export default Login;

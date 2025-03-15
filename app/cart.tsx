@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import { useCart } from '@/context/cartContext'; // Aqui você deve ter o contexto do carrinho com a tipagem correta
+import { useCart } from '@/context/cartContext'; 
 import { router } from 'expo-router';
 
-// Defina a interface para os itens do carrinho
+
 interface Produto {
   id: string;
   nome: string;
@@ -78,7 +78,7 @@ export default function CartScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#212121', // Fundo escuro similar à página de produtos
+    backgroundColor: '#212121', 
   },
   header: {
     marginTop: 50,
@@ -89,24 +89,24 @@ const styles = StyleSheet.create({
   },
   btnVoltar: {
     fontSize: 16,
-    color: '#00BCD4', // Azul mais escuro para o botão de voltar
+    color: '#00BCD4',
     paddingVertical: 8,
     paddingHorizontal: 12,
   },
   tt: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#FFFFFF', // Cor branca para o título
+    color: '#FFFFFF',
   },
   produtoCard: {
-    backgroundColor: '#1c1c1c', // Fundo mais escuro para o card de produto
+    backgroundColor: '#1c1c1c', 
     marginHorizontal: 20,
     marginVertical: 10,
     borderRadius: 12,
     flexDirection: 'row',
     padding: 12,
     borderWidth: 1,
-    borderColor: '#00BCD4', // Azul mais escuro para borda
+    borderColor: '#00BCD4',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -126,22 +126,22 @@ const styles = StyleSheet.create({
   nomeProduto: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#00BCD4', // Azul mais escuro para o nome
+    color: '#00BCD4', 
   },
   precoProduto: {
     fontSize: 14,
-    color: '#B0B0B0', // Cor cinza mais suave para o preço
+    color: '#B0B0B0', 
     marginTop: 4,
   },
   quantidadeProduto: {
     fontSize: 14,
-    color: '#B0B0B0', // Cor cinza para a quantidade
+    color: '#B0B0B0', 
     marginTop: 4,
     fontWeight: 'bold',
   },
   botaoRemover: {
     marginTop: 10,
-    backgroundColor: '#E53935', // Vermelho sóbrio para o botão de remover
+    backgroundColor: '#E53935', 
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 8,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   botaoFinalizar: {
-    backgroundColor: '#1A73E8', // Azul mais escuro para o botão de finalizar
+    backgroundColor: '#1A73E8', 
     margin: 20,
     borderRadius: 12,
     paddingVertical: 16,
