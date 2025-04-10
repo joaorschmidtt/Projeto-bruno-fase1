@@ -1,81 +1,225 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import { useCart } from '@/context/cartContext';
-import { LinearGradient } from 'expo-linear-gradient';
+import api from '@/api';
+import QRCode from 'react-native-qrcode-svg';
 
-export default function FinalizarCompra() {
-  const { limparCarrinho } = useCart();
+const FinalizarCompra = () => {
+  const { carrinho, limparCarrinho } = useCart();
+  const [pagamento, setPagamento] = useState('Pix');
 
-  const handleFinalizar = () => {
-    limparCarrinho(); 
-    router.push('/products'); 
+  const [dadosPix, setDadosPix] = useState({ chave: '' });
+  const [dadosCartao, setDadosCartao] = useState({
+    numero: '',
+    nome: '',
+    validade: '',
+    cvv: '',
+  });
+  const [dadosBoleto, setDadosBoleto] = useState({ cpf: '' });
+
+  const totalCompra = carrinho
+    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toFixed(2);
+
+  const finalizar = async () => {
+    try {
+      const pedido = {
+        userId: '123', // Substituir pelo ID do usuário logado
+        products: carrinho.map((item) => ({ name: item.name, price: item.price })),
+        total: parseFloat(totalCompra),
+        pagamento,
+        detalhesPagamento:
+          pagamento === 'Pix'
+            ? dadosPix
+            : pagamento === 'Cartão de Crédito'
+            ? dadosCartao
+            : dadosBoleto,
+      };
+      await api.post('/api/purchase', pedido);
+      alert('Compra finalizada com sucesso!');
+      limparCarrinho();
+    } catch (err) {
+      alert('Erro ao finalizar compra');
+    }
+  };
+
+  const renderFormularioPagamento = () => {
+    switch (pagamento) {
+      case 'Pix':
+        return (
+          <View style={styles.form}>
+            <Text style={styles.label}>Chave Pix:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite sua chave Pix"
+              placeholderTextColor="#999"
+              value={dadosPix.chave}
+              onChangeText={(text) => setDadosPix({ chave: text })}
+            />
+            {dadosPix.chave.length > 5 && (
+              <View style={styles.qrContainer}>
+                <Text style={styles.label}>QR Code:</Text>
+                <QRCode
+                  value={`Pagamento de R$${totalCompra} para chave: ${dadosPix.chave}`}
+                  size={200}
+                  color="#00BCD4"
+                  backgroundColor="#fff"
+                />
+              </View>
+            )}
+          </View>
+        );
+      case 'Cartão de Crédito':
+        return (
+          <View style={styles.form}>
+            <Text style={styles.label}>Número do Cartão:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="0000 0000 0000 0000"
+              keyboardType="numeric"
+              value={dadosCartao.numero}
+              onChangeText={(text) =>
+                setDadosCartao({ ...dadosCartao, numero: text })
+              }
+            />
+            <Text style={styles.label}>Nome no Cartão:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nome completo"
+              value={dadosCartao.nome}
+              onChangeText={(text) =>
+                setDadosCartao({ ...dadosCartao, nome: text })
+              }
+            />
+            <View style={{ flexDirection: 'row', gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.label}>Validade:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="MM/AA"
+                  value={dadosCartao.validade}
+                  onChangeText={(text) =>
+                    setDadosCartao({ ...dadosCartao, validade: text })
+                  }
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.label}>CVV:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="123"
+                  keyboardType="numeric"
+                  value={dadosCartao.cvv}
+                  onChangeText={(text) =>
+                    setDadosCartao({ ...dadosCartao, cvv: text })
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        );
+      case 'Dinheiro':
+        return (
+          <Text style={styles.label}>Você pagará em dinheiro na entrega.</Text>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <LinearGradient
-      colors={['#2c2f3f', '#1a1a1a']} 
-      style={styles.container}
-    >
-      <View style={styles.card}>
-        <Text style={styles.titulo}>Compra finalizada!</Text>
-        <Text style={styles.subtitulo}>Obrigado pela sua compra! 🎉</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.titulo}>Resumo do Pedido</Text>
+      {carrinho.map((item) => (
+        <Text key={item._id} style={styles.itemTexto}>
+          {item.name} x{item.quantity}
+        </Text>
+      ))}
+      <Text style={styles.total}>Total: R${totalCompra}</Text>
 
-        <TouchableOpacity style={styles.botao} onPress={handleFinalizar}>
-          <Text style={styles.textoBotao}>Voltar para a Home</Text>
-        </TouchableOpacity>
+      <Text style={styles.titulo}>Forma de Pagamento</Text>
+      <View style={styles.pagamentoContainer}>
+        {['Pix', 'Cartão de Crédito', 'Dinheiro'].map((tipo) => (
+          <TouchableOpacity
+            key={tipo}
+            style={[
+              styles.botaoPagamento,
+              pagamento === tipo && styles.botaoSelecionado,
+            ]}
+            onPress={() => setPagamento(tipo)}
+          >
+            <Text
+              style={[
+                styles.textoPagamento,
+                pagamento === tipo && styles.textoSelecionado,
+              ]}
+            >
+              {tipo}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
-    </LinearGradient>
+
+      {renderFormularioPagamento()}
+
+      <Button title="Finalizar Compra" onPress={finalizar} color="#00BCD4" />
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+  container: { padding: 20, backgroundColor: '#212121', flexGrow: 1 },
+  titulo: { fontSize: 18, color: '#00BCD4', marginTop: 20, marginBottom: 10 },
+  total: { fontSize: 16, color: '#fff', marginVertical: 10 },
+  itemTexto: { color: '#fff' },
+  pagamentoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  card: {
-    backgroundColor: '#1c1c1c', 
-    borderRadius: 12,
-    padding: 25,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 5, 
-    width: '90%', 
-    maxWidth: 400,
+  botaoPagamento: {
+    borderColor: '#00BCD4',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 5,
   },
-  titulo: {
-    fontSize: 26,
+  botaoSelecionado: {
+    backgroundColor: '#00BCD4',
+  },
+  textoPagamento: {
+    color: '#fff',
+  },
+  textoSelecionado: {
+    color: '#212121',
     fontWeight: 'bold',
-    marginBottom: 12,
-    color: '#00BCD4', 
-    textAlign: 'center',
   },
-  subtitulo: {
-    fontSize: 18,
-    marginBottom: 30,
-    color: '#B0B0B0', 
-    textAlign: 'center',
+  form: {
+    marginBottom: 20,
   },
-  botao: {
-    backgroundColor: '#00BCD4', 
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
+  label: {
+    color: '#00BCD4',
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  input: {
+    backgroundColor: '#333',
+    borderRadius: 5,
+    padding: 10,
+    color: '#fff',
+  },
+  qrContainer: {
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5, 
-  },
-  textoBotao: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    marginTop: 20,
   },
 });
+
+export default FinalizarCompra;
