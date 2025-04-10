@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native-gesture-handler";
+import api from "@/api";
 
 const Login = () => {
   const navigate = useRouter();
@@ -11,18 +12,16 @@ const Login = () => {
     navigate.replace(path);
   };
 
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
- 
   const isValidEmail = (email: string) => {
     const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setError("");
 
     if (!email || !password) {
@@ -40,14 +39,26 @@ const Login = () => {
       return;
     }
 
-    
-    replacepath("/products");
+    try {
+      const response = await api.post("/api/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        replacepath("/products");
+      } else {
+        setError("E-mail ou senha incorretos.");
+      }
+    } catch (error) {
+      console.log(error);
+      setError("Erro ao realizar login. Tente novamente.");
+    }
   };
 
-  
-  const isFormValid = () => {
-    return isValidEmail(email) && password.length >= 6;
-  };
+  function isFormValid() {
+    return email.trim() !== "" && password.trim() !== "" && isValidEmail(email) && password.length >= 6;
+  }
 
   return (
     <LinearGradient
@@ -86,10 +97,7 @@ const Login = () => {
 
         {/* Botão de entrar */}
         <TouchableOpacity
-          style={[
-            styles.buttonContainer,
-            !isFormValid() && { opacity: 0.5 },
-          ]}
+          style={[styles.buttonContainer, !isFormValid() && { opacity: 0.5 }]}
           onPress={handleLogin}
           disabled={!isFormValid()}
         >

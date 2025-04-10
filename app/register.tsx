@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native-gesture-handler";
+import api from "@/api";
 
 const register = () => {
   const navigate = useRouter();
@@ -18,76 +19,24 @@ const register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Validação do CPF
-  const isValidCPF = (cpf: string) => {
-    cpf = cpf.replace(/[^\d]+/g, ""); 
+  const handleRegister = async () => {
+    try {
+      setError("");
 
-    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-
-    let sum = 0;
-    let remainder;
-
-    for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-    remainder = (sum * 10) % 11;
-    if (remainder === 10 || remainder === 11) remainder = 0;
-    if (remainder !== parseInt(cpf.substring(9, 10))) return false;
-
-    sum = 0;
-    for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-    remainder = (sum * 10) % 11;
-    if (remainder === 10 || remainder === 11) remainder = 0;
-    if (remainder !== parseInt(cpf.substring(10, 11))) return false;
-
-    return true;
-  };
-
-  const isValidEmail = (email: string) => {
-    const emailRegex = /\S+@\S+\.\S+/;
-    return emailRegex.test(email);
-  };
-
-  const handleRegister = () => {
-    setError("");
-
-    if (!name || !email || !cpf || !password || !confirmPassword) {
-      setError("Todos os campos são obrigatórios.");
-      return;
+      await api.post("/api/user", {
+        name,
+        email,
+        cpf,
+        password,
+        confirmPassword,
+      });
+      navigate.replace("/login");
+    } catch (error) {
+      console.log(error);
+      setError(
+        "Erro ao registrar usuário. Verifique os dados e tente novamente."
+      );
     }
-
-    if (name.trim().length < 2) {
-      setError("O nome completo deve ter no mínimo 2 caracteres.");
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      setError("Por favor, insira um e-mail válido.");
-      return;
-    }
-
-    if (!isValidCPF(cpf)) {
-      setError("Por favor, insira um CPF válido.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("As senhas não coincidem.");
-      return;
-    }
-
-   
-    replacepath("/login");
-  };
-
-  
-  const isFormValid = () => {
-    return (
-      name.trim().length >= 2 &&
-      isValidEmail(email) &&
-      isValidCPF(cpf) &&
-      password.length > 0 &&
-      confirmPassword.length > 0 &&
-      password === confirmPassword
-    );
   };
 
   return (
@@ -127,7 +76,7 @@ const register = () => {
           style={styles.input}
           value={cpf}
           onChangeText={setCpf}
-          maxLength={14} 
+          maxLength={14}
         />
         <TextInput
           placeholder="Senha*"
@@ -149,12 +98,8 @@ const register = () => {
         {error !== "" && <Text style={styles.errorText}>{error}</Text>}
 
         <TouchableOpacity
-          style={[
-            styles.buttonContainer,
-            !isFormValid() && { opacity: 0.5 },
-          ]}
+          style={styles.buttonContainer}
           onPress={handleRegister}
-          disabled={!isFormValid()}
         >
           <LinearGradient
             colors={["#2979FF", "#212121"]}

@@ -3,42 +3,42 @@ import { useCart } from '@/context/cartContext';
 import { router } from 'expo-router';
 
 
-interface Produto {
-  id: string;
-  nome: string;
-  preco: string;
-  descricao: string;
-  imagem: any;
-  quantidade: number;
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  quantity: number;
 }
 
 export default function CartScreen() {
   const { carrinho, removerDoCarrinho } = useCart();
 
-  const produtosAgrupados = carrinho.reduce((acc: Produto[], produto) => {
-    const produtoExistente = acc.find((p) => p.id === produto.id);
+  const produtosAgrupados = carrinho.reduce((acc: Product[], produto) => {
+    const produtoExistente = acc.find((p) => p._id === produto._id);
     if (produtoExistente) {
-      produtoExistente.quantidade += 1;
+      produtoExistente.quantity += 1;
     } else {
-      acc.push({ ...produto, quantidade: 1 });
+      acc.push({ ...produto, quantity: 1 });
     }
     return acc;
   }, []);
 
-  const renderProduto = ({ item }: { item: Produto }) => (
+  const renderProduto = ({ item }: { item: Product }) => (
     <View style={styles.produtoCard}>
       <Image
-        source={typeof item.imagem === 'string' ? { uri: item.imagem } : item.imagem}
+        source={typeof item.image === 'string' ? { uri: item.image } : item.image}
         style={styles.imagemProduto}
       />
       <View style={styles.infoContainer}>
-        <Text style={styles.nomeProduto}>{item.nome}</Text>
-        <Text style={styles.precoProduto}>R$ {item.preco}</Text>
-        <Text style={styles.quantidadeProduto}>Quantidade: {item.quantidade}</Text>
+        <Text style={styles.nomeProduto}>{item.name}</Text>
+        <Text style={styles.precoProduto}>R$ {item.price}</Text>
+        <Text style={styles.quantidadeProduto}>Quantidade: {item.quantity}</Text>
 
         <TouchableOpacity
           style={styles.botaoRemover}
-          onPress={() => removerDoCarrinho(item.id)}
+          onPress={() => removerDoCarrinho(item._id)}
         >
           <Text style={styles.textoRemover}>Remover</Text>
         </TouchableOpacity>
@@ -58,7 +58,7 @@ export default function CartScreen() {
       <FlatList
         data={produtosAgrupados}
         renderItem={renderProduto}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
       />
